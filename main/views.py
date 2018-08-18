@@ -25,14 +25,15 @@ def index_page(request):
         return render(request, 'index_to_short_temp.html')
     elif request.method == 'POST':
         form_url = request.POST.get('longurl')
-        custom_url = request.POST.get('customurl')
+        custom_url = request.POST.get('customurl', '')
         # string = str(custom_url)
         # print string
         # if db.customurl.find({"custom" : string })
         # if db.customurl.find({"custom" : str(custom_url) }):
         #     return render(request, 'error.html')
         # else:
-        http_array = ["http://","https://"]
+        
+        http_array = ["http://", "https://"]
         for word in http_array:
             if not word in form_url:
                 value = True 
@@ -40,31 +41,35 @@ def index_page(request):
                 value = False
         if( value ):
             form_url = "http://" + form_url     
-        last_value = db.customurl.find().sort([('_id',-1)]).limit(1)
+        
+        last_value = db.customurl.find().sort([('_id', -1)]).limit(1)
         last_index = 0
         for k in last_value:
             last_index = k['index']
         new_index = index_to_short(int(last_index)+1)
+
         if custom_url is "":
             db.customurl.insert({"index":int(last_index)+1,"original":form_url,"shortened":new_index,"custom":str(int(last_index)+1)})
             context = {
                 'short' : new_index
             }
-            return render(request, 'index_to_short_temp.html',context)
+            return render(request, 'index_to_short_temp.html', context)
+
         else:
             new_user_url = str(custom_url)
             db.customurl.insert({"index":int(last_index)+1,"original":form_url,"shortened":new_index,"custom":new_user_url})
             context = {
                 'short' : new_index,
-                'user' : new_user_url
+                'custom_short' : new_user_url
             }
-            return render(request, 'index_to_short_temp.html',context)
+            return render(request, 'index_to_short_temp.html', context)
 
 def redirect_view(request, slug):
-    if db.customurl.find({"custom" : str(slug) }):
-        shorted_url = db.customurl.find_one({"custom" : str(slug)})["shortened"]
+    db_return = db.customurl.find_one({"custom" : str(slug)})
+    if db_return:
+        shorted_url = db_return["shortened"]
         index = short_to_index(shorted_url)
-    else:    
+    else:
         index = short_to_index(slug)
     original_url = db.customurl.find_one({"index" : index})["original"]
     return redirect(original_url)

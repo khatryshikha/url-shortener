@@ -23,8 +23,10 @@
         <input type="text" class="form-control" id="customurl" placeholder="Customize url" name="customurl" />
       </div>
 
-      <p align="right"> <button type="submit" class="btn btn-info btn-lg">Change URL </button> <button type="button" class="btn btn-info btn-lg"
-          data-toggle="modal" data-target="#myModal">Generate short Url</button> </p>
+      <p> 
+        <!-- <button type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Change URL </button>  -->
+        <button type="submit" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Generate URL</button> 
+        </p>
     </form>
 
     <div class="modal fade" id="myModal" role="dialog">
@@ -34,8 +36,10 @@
             <h4 class="modal-title">Shortened URL</h4>
           </div>
           <div class="modal-body">
-            <p>SHORTENED: <a href>http://localhost:8000/{{short}}</a></p>
-            <p>CUSTOMIZE: <a href>http://localhost:8000/{{user}}</a></p>
+            <p>SHORTENED: <a href='http://localhost:8000/{{short}}'>http://localhost:8000/{{short}}</a></p>
+            {% if custom_short %}
+            <p>CUSTOMIZE: <a href='http://localhost:8000/{{custom_short}}'>http://localhost:8000/{{custom_short}}</a></p>
+            {% endif %}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
