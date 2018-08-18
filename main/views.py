@@ -40,7 +40,6 @@ def index_page(request):
                 value = False
         if( value ):
             form_url = "http://" + form_url     
-        print form_url
         last_value = db.customurl.find().sort([('_id',-1)]).limit(1)
         last_index = 0
         for k in last_value:
@@ -62,7 +61,6 @@ def index_page(request):
             return render(request, 'index_to_short_temp.html',context)
 
 def redirect_view(request, slug):
-    print slug
     if db.customurl.find({"custom" : str(slug) }):
         shorted_url = db.customurl.find_one({"custom" : str(slug)})["shortened"]
         index = short_to_index(shorted_url)
