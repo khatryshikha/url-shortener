@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from database import db
+import re
 
 def index_to_short(url_value):
     index = url_value
@@ -26,22 +28,10 @@ def index_page(request):
     elif request.method == 'POST':
         form_url = request.POST.get('longurl')
         custom_url = request.POST.get('customurl', '')
-        # string = str(custom_url)
-        # print string
-        # if db.customurl.find({"custom" : string })
-        # if db.customurl.find({"custom" : str(custom_url) }):
-        #     return render(request, 'error.html')
-        # else:
-        
-        http_array = ["http://", "https://"]
-        for word in http_array:
-            if not word in form_url:
-                value = True 
-            else : 
-                value = False
-        if( value ):
-            form_url = "http://" + form_url     
-        
+        db_return = db.customurl.find_one({"custom" : str(custom_url)})
+        if db_return:
+            return render(request,'error.html')
+        form_url = check_url(form_url)
         last_value = db.customurl.find().sort([('_id', -1)]).limit(1)
         last_index = 0
         for k in last_value:
@@ -85,3 +75,11 @@ def short_to_index(short_url):
     for item in shortned_string: 
         index = index + int(map[item])* pow(62, shortned_string.index(item))
     return index
+
+def check_url(input_url):
+    a = re.match("^(http|https)://", input_url)
+    print a
+    if a:
+        return input_url
+    else:
+        return ("http://"+input_url)
