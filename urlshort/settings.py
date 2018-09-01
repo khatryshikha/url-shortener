@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qne)o@^p+0hi3)^97k5%a42s@d5&p&nggz7jto&0j6-mnied(h'
+# SECRET_KEY = 'qne)o@^p+0hi3)^97k5%a42s@d5&p&nggz7jto&0j6-mnied(h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,6 +85,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # MONGO_URI = 'mongodb://localhost:27017/'
-MONGO_URI = 'mongodb://shikha26:shikha26@ds020938.mlab.com:20938/urlproject'
+# MONGO_URI = 'mongodb://shikha26:shikha26@ds020938.mlab.com:20938/urlproject'
+if os.environ.get('ENVIRONMENT') == None:
+    MONGO_URL = 'localhost'
+    MONGO_PORT = str(27017)
+    MONGO_URI = "mongodb://" + MONGO_URL + ":" + MONGO_PORT + "/"
+    DEBUG = True
+    SECRET_KEY = 'secret'
+elif os.environ.get('ENVIRONMENT') == 'production':
+    MONGO_USER = os.environ['MONGO_USER']
+    MONGO_PASSWORD = os.environ['MONGO_PASSWORD']
+    MONGO_URL = os.environ['MONGO_URL']
+    MONGO_PORT = os.environ['MONGO_PORT']
+    MONGO_DBNAME = os.environ['MONGO_DBNAME']
+    MONGO_URI = "mongodb://" + MONGO_USER + ":" + MONGO_PASSWORD + "@" + MONGO_URL + ":" + MONGO_PORT + "/" + MONGO_DBNAME
+    DEBUG = False
+    SECRET_KEY = os.environ['SECRET_KEY']
 
 
