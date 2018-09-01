@@ -43,7 +43,7 @@ def index_page(request):
             context = {
                 'short' : new_index
             }
-            return render(request, 'index_to_short_temp.html', context)
+            return render(request, 'url_link.html', context)
 
         else:
             new_user_url = str(custom_url)
@@ -52,7 +52,7 @@ def index_page(request):
                 'short' : new_index,
                 'custom_short' : new_user_url
             }
-            return render(request, 'index_to_short_temp.html', context)
+            return render(request, 'url_link.html', context)
 
 def redirect_view(request, slug):
     db_return = db.customurl.find_one({"custom" : str(slug)})

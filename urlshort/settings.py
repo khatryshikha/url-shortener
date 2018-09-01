@@ -84,7 +84,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
+# MONGO_URI = 'mongodb://localhost:27017/'
 MONGO_URI = 'mongodb://shikha26:shikha26@ds020938.mlab.com:20938/urlproject'
 
 

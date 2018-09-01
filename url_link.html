@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <title>URL shortner</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1> Welcome to URL shortner page!! </h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3 class="text-center">Shortened urls:</h3>
+                <br>
+                <br>
+                <h4 class="text-center">SHORTENED: <a href='http://localhost:8000/{{short}}'>http://localhost:8000/{{short}}</a></h4>
+                {% if custom_short %}
+                <h4 class="text-center">CUSTOMIZE: <a href='http://localhost:8000/{{custom_short}}'>http://localhost:8000/{{custom_short}}</a></h4>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-15 text-center">
+            <a href="{% url 'index' %}"><button type="button" class="btn btn-info btn-lg">Back</button></a>
+        </div>
+    </div>
+</body>
+
+</html>
