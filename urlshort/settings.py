@@ -83,7 +83,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 # MONGO_URI = 'mongodb://localhost:27017/'
 # MONGO_URI = 'mongodb://shikha26:shikha26@ds020938.mlab.com:20938/urlproject'
 if os.environ.get('ENVIRONMENT') == None:
