@@ -25,7 +25,7 @@ SECRET_KEY = 'qne)o@^p+0hi3)^97k5%a42s@d5&p&nggz7jto&0j6-mnied(h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,6 +85,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MONGO_URI = 'localhost'
-MONGO_PORT = 27017
+MONGO_URI = 'mongodb://shikha26:shikha26@ds020938.mlab.com:20938/urlproject'
+
 
