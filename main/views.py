@@ -5,7 +5,8 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from database import db
-import re
+import re,time
+
 
 def index_to_short(url_value):
     index = url_value
@@ -55,13 +56,21 @@ def index_page(request):
             return render(request, 'url_link.html', context)
 
 def redirect_view(request, slug):
-    db_return = db.customurl.find_one({"custom" : str(slug)})
+    # t1 = time.time()
+    dbb = db.customurl
+    db_return = dbb.find_one({"custom" : str(slug)})
     if db_return:
         shorted_url = db_return["shortened"]
         index = short_to_index(shorted_url)
     else:
         index = short_to_index(slug)
-    original_url = db.customurl.find_one({"index" : index})["original"]
+    # original_url = dbb.find_one({"index" : index})["original"]
+    arr = dbb.distinct("index")
+    mid = binarySearch(arr, 0, len(arr)-1, index)
+    for i in dbb.find({}).skip(mid).limit(1):
+        original_url = i[str("original")]
+    # t2 = time.time()-t1
+    # print (t2)
     return redirect(original_url)
     
     
@@ -78,8 +87,20 @@ def short_to_index(short_url):
 
 def check_url(input_url):
     a = re.match("^(http|https)://", input_url)
-    print a
     if a:
         return input_url
     else:
         return ("http://"+input_url)
+        
+
+def binarySearch (arr, l, r, x):
+    if r >= l: 
+        mid = l + (r - l)/2
+        if arr[mid] == x: 
+            print mid
+            return mid
+        elif arr[mid] > x: 
+            return binarySearch(arr, l, mid-1, x) 
+        else: 
+            return binarySearch(arr, mid+1, r, x) 
+   
